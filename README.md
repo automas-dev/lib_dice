@@ -23,7 +23,7 @@ fn main() {
 ## Example
 
 ```
-$ git clone https://github.com/twh2898/lib_dice.git
+$ git clone https://github.com/automas-dev/lib_dice.git
 $ cd lib_dice
 $ cargo run --example demo
 ```

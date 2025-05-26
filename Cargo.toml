@@ -1,11 +1,11 @@
 [package]
-authors = ["Thomas Harrison <twh2898@vt.edu>"]
+authors = ["Thomas Harrison <theharrisoncrafter@gmail.com>"]
 name = "lib_dice"
 version = "0.1.0"
 description = "A library for parsing dice rolls"
 documentation = "https://docs.rs/lib_dice/"
-homepage = "https://github.com/twh2898/lib_dice"
-repository = "https://github.com/twh2898/lib_dice"
+homepage = "https://github.com/automas-dev/lib_dice"
+repository = "https://github.com/automas-dev/lib_dice"
 keywords = ["dice", "roll", "parse", "nom"]
 readme = "README.md"
 license = "MIT"
