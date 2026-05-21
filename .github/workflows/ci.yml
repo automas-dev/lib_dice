@@ -13,8 +13,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  lint_test:
-    name: Lint & Test
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,83 +28,13 @@ jobs:
       - name: Test
         run: cargo test --verbose
 
-  publish:
-    name: Publish
-    runs-on: ubuntu-latest
-    # if: github.ref == 'refs/heads/main'
-
-    needs: [lint_test]
-
-    steps:
-      - uses: actions/checkout@v5
-
-      - name: Build
-        run: cargo build --release
-
       - name: Package
         run: cargo package
 
-      # - name: Publish
-      #   run: cargo publish
+      - uses: automas-dev/reusable-workflows/increment_version@v1.0
+        if: github.ref == 'refs/heads/main'
+        id: version
 
-  # tf:
-  #   uses: automas-dev/reusable-workflows/.github/workflows/terraform_deploy.yml@main
-  #   secrets: inherit
-
-  #   permissions:
-  #     contents: write
-  #     pull-requests: write
-
-  #   concurrency:
-  #     group: ${{ github.workflow }}
-  #     cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
-
-  # deploy:
-  #   name: Deploy
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 60
-
-  #   needs: [tf, lint_test]
-
-  #   steps:
-  #     - uses: actions/checkout@v5
-
-  #     - uses: actions/setup-node@v6
-  #       with:
-  #         node-version: 26
-
-  #     - name: Set package version
-  #       run: npm version --no-git-tag-version $VERSION
-  #       env:
-  #         VERSION: ${{ needs.tf.outputs.version }}
-
-  #     - name: Get alias from branch name
-  #       id: alias
-  #       run: |
-  #         echo ALIAS=\"$(echo $GITHUB_HEAD_REF | tr / - | tr _ -)\" >> $GITHUB_OUTPUT
-
-  #     - name: Build & Deploy Worker Dev
-  #       uses: cloudflare/wrangler-action@v3
-  #       if: github.ref != 'refs/heads/main'
-  #       with:
-  #         wranglerVersion: "4.88.0"
-  #         apiToken: ${{ secrets.TF_VAR_CLOUDFLARE_API_TOKEN }}
-  #         accountId: ${{ vars.TF_VAR_ACCOUNT_ID }}
-  #         command: versions upload --preview-alias ${{ steps.alias.outputs.ALIAS }}
-
-  #     - name: Apply D1 Migrations Prod
-  #       uses: cloudflare/wrangler-action@v3
-  #       if: github.ref == 'refs/heads/main'
-  #       with:
-  #         wranglerVersion: "4.88.0"
-  #         apiToken: ${{ secrets.TF_VAR_CLOUDFLARE_API_TOKEN }}
-  #         accountId: ${{ vars.TF_VAR_ACCOUNT_ID }}
-  #         command: d1 migrations apply templog --remote
-
-  #     - name: Build & Deploy Worker Prod
-  #       uses: cloudflare/wrangler-action@v3
-  #       if: github.ref == 'refs/heads/main'
-  #       with:
-  #         wranglerVersion: "4.88.0"
-  #         apiToken: ${{ secrets.TF_VAR_CLOUDFLARE_API_TOKEN }}
-  #         accountId: ${{ vars.TF_VAR_ACCOUNT_ID }}
+      - name: Publish
+        if: github.ref == 'refs/heads/main'
+        run: cargo publish
