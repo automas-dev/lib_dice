@@ -28,9 +28,6 @@ jobs:
       - name: Test
         run: cargo test --verbose
 
-      - name: Package
-        run: cargo package
-
       - uses: automas-dev/reusable-workflows/increment_version@v1.0
         if: github.ref == 'refs/heads/main'
         id: version
@@ -45,4 +42,4 @@ jobs:
         if: github.ref == 'refs/heads/main'
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish
+        run: cargo publish --allow-dirty
