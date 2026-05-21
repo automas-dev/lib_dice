@@ -36,6 +36,6 @@ Welcome to Dice Line v0.1.0
 16
 ```
 
-## Licence
+## License
 
-lib_dice uses the [MIT](LICENCE) Licence
+lib_dice uses the [MIT](LICENSE) License

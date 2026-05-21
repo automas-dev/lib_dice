@@ -1,0 +1,40 @@
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Build
+        run: cargo build --release
+
+      - name: Lint
+        run: cargo fmt --verbose --check
+
+      - name: Test
+        run: cargo test --verbose
+
+      - name: Package
+        run: cargo package
+
+      - uses: automas-dev/reusable-workflows/increment_version@v1.0
+        if: github.ref == 'refs/heads/main'
+        id: version
+
+      - name: Publish
+        if: github.ref == 'refs/heads/main'
+        run: cargo publish
