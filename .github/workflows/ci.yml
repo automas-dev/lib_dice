@@ -30,7 +30,7 @@ jobs:
         run: sed -i "/version/c\version = \"$VERSION\"" Cargo.toml
 
       - name: Build
-        run: cargo build --release
+        run: cargo build --verbose --release
 
       - name: Lint
         run: cargo fmt --verbose --check
