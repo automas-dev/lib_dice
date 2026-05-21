@@ -28,7 +28,7 @@ impl error::Error for DiceFormatError {
         "Dice string was formatted incorrectly"
     }
 
-    fn cause(&self) -> Option<&error::Error> {
+    fn cause(&self) -> Option<&dyn error::Error> {
         None
     }
 }
