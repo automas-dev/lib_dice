@@ -9,6 +9,7 @@ repository = "https://github.com/automas-dev/lib_dice"
 keywords = ["dice", "roll", "parse", "nom"]
 readme = "README.md"
 license = "MIT"
+edition = "2015"
 
 [dependencies]
 nom = "3.1.0"
