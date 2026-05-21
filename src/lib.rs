@@ -23,6 +23,7 @@ mod error;
 use error::DiceFormatError;
 
 fn buf_to_i32(buf: &[u8]) -> i32 {
+    // unsafe is safe because nom guarantees utf8 string with only digits
     FromStr::from_str(unsafe { from_utf8_unchecked(buf) }).unwrap()
 }
 
@@ -53,7 +54,7 @@ pub fn roll(count: usize, dice: u8, bonus: i32) -> i32 {
         .map(|_| rng.gen_range(0, dice as i32))
         .fold(0i32, |total, value| total + value)
         + bonus
-        + 1
+        + count as i32
 }
 
 /// Parse a dice roll from a sting in one of the following formats
@@ -77,7 +78,7 @@ pub fn roll_from_str(cmd: &str) -> Result<i32, DiceFormatError> {
 }
 
 #[test]
-fn test_roll() {
+fn test_parse_dice() {
     // Valid dice strings
     assert_eq!(nom::IResult::Done(&[][..], (1, 8, 0)), parse_dice(b"1d8"));
     assert_eq!(
@@ -98,4 +99,28 @@ fn test_roll() {
         nom::IResult::Done(&b"+"[..], (1, 8, 0)),
         parse_dice(b"1d8+")
     );
+}
+
+#[test]
+fn test_roll() {
+    // Roll one dice
+    for _ in 0..1000 {
+        let r = roll(1, 6, 0);
+        assert!(r >= 1);
+        assert!(r <= 6);
+    }
+
+    // Roll two dice
+    for _ in 0..1000 {
+        let r = roll(2, 6, 0);
+        assert!(r >= 1);
+        assert!(r <= 12);
+    }
+
+    // Roll with bonus
+    for _ in 0..1000 {
+        let r = roll(1, 6, 6);
+        assert!(r >= 6);
+        assert!(r <= 12);
+    }
 }
