@@ -1,6 +1,6 @@
 # lib_dice
 
-> A dice parsing library uses nom for dice syndax parsing
+A dice parsing library uses nom for dice syntax parsing
 
 ## Usage
 
