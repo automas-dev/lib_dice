@@ -1,7 +1,7 @@
 //! A library for parcing dice rolls using nom.
 //!
 //! ## Usage
-//! ```no-run
+//! ```
 //! extern crate lib_dice;
 
 //! fn main() {
@@ -41,7 +41,9 @@ named!(
 /// Simulate a random dice roll using the rand crate.
 ///
 /// ## Example
-/// ```no-run
+/// ```
+/// extern crate lib_dice;
+/// use lib_dice::roll;
 /// let roll_1 = roll(1, 8, 0); // 1d8 + 0
 /// let roll_2 = roll(2, 6, 7); // 2d6 + 7
 /// ```
@@ -57,7 +59,9 @@ pub fn roll(count: usize, dice: u8, bonus: i32) -> i32 {
 /// Parse a dice roll from a sting in one of the following formats
 ///
 /// ## Example
-/// ```no-run
+/// ```
+/// extern crate lib_dice;
+/// use lib_dice::roll_from_str;
 /// let roll_1 = roll_from_str("1d8").unwrap();  // roll a single 8 sided dice
 /// let roll_2 = roll_from_str("2d6 + 7").unwrap();  // roll 2 6 sided dice with a +7 bonus
 /// ```
