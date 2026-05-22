@@ -12,5 +12,5 @@ license = "MIT"
 edition = "2015"
 
 [dependencies]
-nom = "3.1.0"
-rand = "0.3.15"
+nom = "8.0.0"
+rand = "0.10.1"
