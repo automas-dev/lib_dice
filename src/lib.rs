@@ -7,11 +7,11 @@
 //!
 //! fn main() {
 //! 	let roll_1 = lib_dice::roll(1, 8, 0); // 1d8 + 0
-//! 	let roll_2 = lib_dice::roll_from_str("2d6 + 7");
+//! 	let roll_2 = lib_dice::roll_from_str("2d6 + 7").unwrap();
 //!
 //!     let dice = DiceRoll::new(1, 8, 3); // 1d8 + 3
 //!     let roll_3 = dice.roll();
-//!     let dice = DiceRoll::from_str(s).unwrap("1d12");
+//!     let dice = DiceRoll::from_str("1d12").unwrap();
 //!     let roll_4 = dice.roll_no_bonus();
 //! }
 //! ```
