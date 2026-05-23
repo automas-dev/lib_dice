@@ -10,7 +10,12 @@ fn main() {
         io::stdout().flush().unwrap();
 
         let mut line = String::new();
-        std::io::stdin().read_line(&mut line).expect("STDIN Error");
+        // Read stdin catching eof for ctrl + d
+        if std::io::stdin().read_line(&mut line).expect("STDIN Error") == 0 {
+            // Print newline after repl input line
+            println!("");
+            break;
+        }
 
         match lib_dice::roll_from_str(&line.trim()) {
             Ok(res) => println!("{}", res),

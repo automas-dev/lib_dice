@@ -1,3 +1,6 @@
+use std::error::Error;
+use std::fmt::{self, Display, Formatter};
+
 #[derive(Debug, PartialEq)]
 pub struct DiceFormatError {
     dice_string: String,
@@ -15,20 +18,14 @@ impl DiceFormatError {
     }
 }
 
-use std::fmt;
-impl fmt::Display for DiceFormatError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Bad Format: '{}'", self.get_dice_string())
+impl Display for DiceFormatError {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(
+            f,
+            "Dice string was formatted incorrectly '{}'",
+            self.get_dice_string()
+        )
     }
 }
 
-use std::error;
-impl error::Error for DiceFormatError {
-    fn description(&self) -> &str {
-        "Dice string was formatted incorrectly"
-    }
-
-    fn cause(&self) -> Option<&dyn error::Error> {
-        None
-    }
-}
+impl Error for DiceFormatError {}
