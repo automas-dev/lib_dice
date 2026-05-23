@@ -3,8 +3,8 @@ use std::str::FromStr;
 
 use nom::IResult;
 
-use error::DiceFormatError;
-use parse::parse_roll;
+use crate::error::DiceFormatError;
+use crate::parse::parse_roll;
 
 /// A single dice roll configuration including count, dice and bonus
 #[derive(Debug, PartialEq)]

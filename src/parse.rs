@@ -1,6 +1,6 @@
 use nom::{
-    bytes::complete::tag, bytes::complete::take_while1, character::complete::space0,
-    combinator::map_res, combinator::opt, IResult, Parser,
+    IResult, Parser, bytes::complete::tag, bytes::complete::take_while1,
+    character::complete::space0, combinator::map_res, combinator::opt,
 };
 
 /// Parse an decimal integer from an input string
