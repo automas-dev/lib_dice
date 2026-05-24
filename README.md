@@ -14,7 +14,7 @@ groups `(\d+)d(\d+)(?:\s*\+\s*(\d+))?`
 Cargo.toml
 ```toml
 [dependencies]
-lib_dice = "1.1.0"
+lib_dice = "1.3.0"
 ```
 
 src/main.rs
