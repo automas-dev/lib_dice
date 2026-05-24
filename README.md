@@ -7,7 +7,7 @@ A dice parsing library uses nom for dice syntax parsing.
 
 Dice string format is `{count}d{sides}` or `{count}d{sides}+{bonus}` with to
 include a bonus. The regex form is `\d+d\d+(\s*\+\s*\d+)?` or with capture
-groups `(\d)+d(\d)+(?:\s*\+\s*(\d+))?`
+groups `(\d+)d(\d+)(?:\s*\+\s*(\d+))?`
 
 ## Usage
 
