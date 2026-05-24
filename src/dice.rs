@@ -10,7 +10,7 @@ use crate::parse::parse_roll;
 #[derive(Debug, PartialEq)]
 pub struct DiceRoll {
     pub count: usize,
-    pub dice: u8,
+    pub sides: u8,
     pub bonus: i32,
 }
 
@@ -23,11 +23,15 @@ impl DiceRoll {
     /// use lib_dice::DiceRoll;
     /// let d = DiceRoll::new(1, 6, 3);
     /// assert_eq!(d.count, 1);
-    /// assert_eq!(d.dice, 6);
+    /// assert_eq!(d.sides, 6);
     /// assert_eq!(d.bonus, 3);
     /// ```
-    pub fn new(count: usize, dice: u8, bonus: i32) -> Self {
-        DiceRoll { count, dice, bonus }
+    pub fn new(count: usize, sides: u8, bonus: i32) -> Self {
+        DiceRoll {
+            count,
+            sides,
+            bonus,
+        }
     }
 
     /// Simulate a random dice roll using the rand crate.
@@ -57,7 +61,7 @@ impl DiceRoll {
     /// let roll_2 = dice.roll_no_bonus();
     /// ```
     pub fn roll_no_bonus(&self) -> i32 {
-        let max = self.dice as usize * self.count;
+        let max = self.sides as usize * self.count;
         rand::random_range(self.count..=max) as i32
     }
 }
@@ -65,9 +69,9 @@ impl DiceRoll {
 impl fmt::Display for DiceRoll {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         if self.bonus != 0 {
-            write!(f, "{}d{}+{}", self.count, self.dice, self.bonus)
+            write!(f, "{}d{}+{}", self.count, self.sides, self.bonus)
         } else {
-            write!(f, "{}d{}", self.count, self.dice)
+            write!(f, "{}d{}", self.count, self.sides)
         }
     }
 }
@@ -77,7 +81,7 @@ impl FromStr for DiceRoll {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match parse_roll(s) {
-            IResult::Ok((_, (count, dice, bonus))) => Ok(DiceRoll::new(count, dice, bonus)),
+            IResult::Ok((_, (count, sides, bonus))) => Ok(DiceRoll::new(count, sides, bonus)),
             _ => Err(DiceFormatError::new(s)),
         }
     }
@@ -89,7 +93,7 @@ fn test_dice_roll() {
     assert_eq!(
         DiceRoll {
             count: 1,
-            dice: 8,
+            sides: 8,
             bonus: 3
         },
         DiceRoll::new(1, 8, 3)
@@ -127,7 +131,7 @@ fn test_dice_roll_from_str() {
     assert_eq!(
         Ok(DiceRoll {
             count: 1,
-            dice: 8,
+            sides: 8,
             bonus: 0
         }),
         DiceRoll::from_str("1d8")
@@ -137,7 +141,7 @@ fn test_dice_roll_from_str() {
     assert_eq!(
         Ok(DiceRoll {
             count: 3,
-            dice: 12,
+            sides: 12,
             bonus: 0
         }),
         DiceRoll::from_str("3d12")
@@ -147,7 +151,7 @@ fn test_dice_roll_from_str() {
     assert_eq!(
         Ok(DiceRoll {
             count: 1,
-            dice: 8,
+            sides: 8,
             bonus: 3
         }),
         DiceRoll::from_str("1d8+3")
@@ -157,7 +161,7 @@ fn test_dice_roll_from_str() {
     assert_eq!(
         Ok(DiceRoll {
             count: 1,
-            dice: 8,
+            sides: 8,
             bonus: 3
         }),
         DiceRoll::from_str("1d8 + 3")

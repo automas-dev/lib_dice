@@ -10,8 +10,9 @@ fn parse_int<T: std::str::FromStr>(input: &str) -> IResult<&str, T> {
 
 /// Parse dice notation with count and type
 fn parse_dice(input: &str) -> IResult<&str, (usize, u8)> {
-    let (input, (count, _, die)) = (parse_int::<usize>, tag("d"), parse_int::<u8>).parse(input)?;
-    Ok((input, (count, die)))
+    let (input, (count, _, sides)) =
+        (parse_int::<usize>, tag("d"), parse_int::<u8>).parse(input)?;
+    Ok((input, (count, sides)))
 }
 
 /// Parse bonus extension to dice notation
@@ -23,9 +24,9 @@ fn parse_bonus(input: &str) -> IResult<&str, i32> {
 
 /// Parse string into DiceRoll using the format {count}d{sides} with optional +{bonus}
 pub fn parse_roll(input: &str) -> IResult<&str, (usize, u8, i32)> {
-    let (input, (count, dice)) = parse_dice(input)?;
+    let (input, (count, sides)) = parse_dice(input)?;
     let (input, bonus) = opt(parse_bonus).parse(input)?;
-    Ok((input, (count, dice, bonus.unwrap_or(0))))
+    Ok((input, (count, sides, bonus.unwrap_or(0))))
 }
 
 #[test]

@@ -5,7 +5,7 @@ A dice parsing library uses nom for dice syntax parsing.
 - [Documentation](https://docs.rs/lib_dice/latest/lib_dice)
 - [Crates IO](https://crates.io/crates/lib_dice)
 
-Dice string format is `{count}d{dice}` or `{count}d{dice}+{bonus}` with to
+Dice string format is `{count}d{sides}` or `{count}d{sides}+{bonus}` with to
 include a bonus. The regex form is `\d+d\d+(\s*\+\s*\d+)?` or with capture
 groups `(\d)+d(\d)+(?:\s*\+\s*(\d+))?`
 

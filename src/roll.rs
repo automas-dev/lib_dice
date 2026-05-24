@@ -11,8 +11,13 @@ use crate::error::DiceFormatError;
 /// let roll_1 = roll(1, 8, 0); // 1d8 + 0
 /// let roll_2 = roll(2, 6, 7); // 2d6 + 7
 /// ```
-pub fn roll(count: usize, dice: u8, bonus: i32) -> i32 {
-    DiceRoll { count, dice, bonus }.roll()
+pub fn roll(count: usize, sides: u8, bonus: i32) -> i32 {
+    DiceRoll {
+        count,
+        sides,
+        bonus,
+    }
+    .roll()
 }
 
 /// Parse a dice roll from a sting in one of the following formats
